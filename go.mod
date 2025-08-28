@@ -1,4 +1,4 @@
-module github.com/TBXark/sphere/proto/options
+module github.com/go-sphere/options
 
 go 1.23.0
 
