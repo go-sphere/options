@@ -9,7 +9,7 @@ This is a proto file that defines extra options for RPC methods. It provides met
 - Support for different value types (boolean, string, number)
 - Extensible extra data mapping
 - Integration with code generation plugins
-- Designed for use with `protoc-gen-route` and other sphere plugins
+- Designed for use with [`protoc-gen-route`](https://github.com/go-sphere/protoc-gen-route) and other sphere plugins
 
 ## Proto Definition
 
