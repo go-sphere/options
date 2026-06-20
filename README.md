@@ -55,12 +55,10 @@ service BotService {
   rpc Start(StartRequest) returns (StartResponse) {
     option (sphere.options.options) = {
       key: "bot"
-      extra: [
-        {
-          key: "command"
-          value: "start"
-        }
-      ]
+      extra: {
+        key: "command"
+        value: "start"
+      }
     };
   }
 }
@@ -73,36 +71,32 @@ service MenuService {
   rpc UpdateCount(UpdateCountRequest) returns (UpdateCountResponse) {
     option (sphere.options.options) = {
       key: "bot"
-      extra: [
-        {
-          key: "command"
-          value: "start"
-        },
-        {
-          key: "callback_query"
-          value: "start"
-        }
-      ]
+      extra: {
+        key: "command"
+        value: "start"
+      }
+      extra: {
+        key: "callback_query"
+        value: "start"
+      }
     };
   }
   
   rpc GetMenu(GetMenuRequest) returns (GetMenuResponse) {
     option (sphere.options.options) = {
       key: "bot"
-      extra: [
-        {
-          key: "command"
-          value: "menu"
-        },
-        {
-          key: "description"
-          value: "Display main menu"
-        },
-        {
-          key: "admin_only"
-          value: "false"
-        }
-      ]
+      extra: {
+        key: "command"
+        value: "menu"
+      }
+      extra: {
+        key: "description"
+        value: "Display main menu"
+      }
+      extra: {
+        key: "admin_only"
+        value: "false"
+      }
     };
   }
 }
@@ -113,27 +107,29 @@ service MenuService {
 ```protobuf
 service ConfigService {
   rpc UpdateSettings(UpdateSettingsRequest) returns (UpdateSettingsResponse) {
-    option (sphere.options.options) = [
-      {
-        key: "auth"
-        flag: true  // Boolean value
-      },
-      {
-        key: "rate_limit"
-        number: 100  // Integer value
-      },
-      {
-        key: "endpoint"
-        text: "/api/v1/settings"  // String value
-      },
-      {
-        key: "metadata"
-        extra: {
-          "timeout": "30s",
-          "retry_count": "3"
-        }
+    option (sphere.options.options) = {
+      key: "auth"
+      flag: true  // Boolean value
+    };
+    option (sphere.options.options) = {
+      key: "rate_limit"
+      number: 100  // Integer value
+    };
+    option (sphere.options.options) = {
+      key: "endpoint"
+      text: "/api/v1/settings"  // String value
+    };
+    option (sphere.options.options) = {
+      key: "metadata"
+      extra: {
+        key: "timeout"
+        value: "30s"
       }
-    ];
+      extra: {
+        key: "retry_count"
+        value: "3"
+      }
+    };
   }
 }
 ```
@@ -227,10 +223,14 @@ Configure Telegram bot command handlers:
 rpc HandleStart(StartRequest) returns (StartResponse) {
   option (sphere.options.options) = {
     key: "bot"
-    extra: [
-      { key: "command", value: "start" },
-      { key: "description", value: "Start the bot" }
-    ]
+    extra: {
+      key: "command"
+      value: "start"
+    }
+    extra: {
+      key: "description"
+      value: "Start the bot"
+    }
   };
 }
 ```
@@ -241,19 +241,21 @@ Configure HTTP API endpoints:
 
 ```protobuf
 rpc GetUser(GetUserRequest) returns (GetUserResponse) {
-  option (sphere.options.options) = [
-    {
-      key: "http"
-      extra: [
-        { key: "method", value: "GET" },
-        { key: "path", value: "/users/{id}" }
-      ]
-    },
-    {
-      key: "auth"
-      flag: true
+  option (sphere.options.options) = {
+    key: "http"
+    extra: {
+      key: "method"
+      value: "GET"
     }
-  ];
+    extra: {
+      key: "path"
+      value: "/users/{id}"
+    }
+  };
+  option (sphere.options.options) = {
+    key: "auth"
+    flag: true
+  };
 }
 ```
 
@@ -263,16 +265,14 @@ Enable/disable features per method:
 
 ```protobuf
 rpc AdminOperation(AdminRequest) returns (AdminResponse) {
-  option (sphere.options.options) = [
-    {
-      key: "admin_only"
-      flag: true
-    },
-    {
-      key: "rate_limit"
-      number: 10
-    }
-  ];
+  option (sphere.options.options) = {
+    key: "admin_only"
+    flag: true
+  };
+  option (sphere.options.options) = {
+    key: "rate_limit"
+    number: 10
+  };
 }
 ```
 
