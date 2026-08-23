@@ -162,8 +162,8 @@ plugins:
     opt:
       - paths=source_relative
       - options_key=bot
-      - request_model=github.com/go-sphere/sphere/social/telegram;Update
-      - response_model=github.com/go-sphere/sphere/social/telegram;Message
+      - request_model=github.com/go-sphere/telegram-bot/telegram;Update
+      - response_model=github.com/go-sphere/telegram-bot/telegram;Message
 ```
 
 ## Generated Code Usage
