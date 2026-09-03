@@ -7,16 +7,40 @@ import "google/protobuf/descriptor.proto";
 
 option go_package = "github.com/go-sphere/options/sphere/options";
 
+// KeyValuePair represents a single method option or routing metadata entry.
+// It supports boolean flags, text strings, 64-bit integer numbers, and an extensible
+// key-value string map for auxiliary configuration.
+//
+// Preconditions: key should be a non-empty string identifier (e.g. "route", "auth").
+// GetFlag(), GetText(), and GetNumber() return zero values when value is unset.
+// Callers requiring distinction between unset and explicit zero values should inspect GetValue() directly.
+// Concurrency: KeyValuePair instances and the extra map are not goroutine-safe for concurrent writes.
+// Lifecycle: GetExtra() returns a direct reference to the internal map; do not mutate concurrently.
+// Error semantics: Pure data model; code generators reject missing required keys during parsing.
+// Side-effects: Pure schema metadata; no background routines or global state modification.
 message KeyValuePair {
+  // key is the unique identifier for this option configuration (e.g. "route", "bot").
   string key = 1;
+  // value represents the option payload as a typed scalar oneof.
+  // Note: GetFlag(), GetText(), and GetNumber() return zero values when value is unset.
+  // Callers requiring distinction between unset and explicit zero values should inspect Value directly.
   oneof value {
+    // flag represents a boolean configuration option.
     bool flag = 2;
+    // text represents a string configuration option.
     string text = 3;
+    // number represents an integer configuration option.
     int64 number = 4;
   }
+  // extra holds auxiliary key-value string parameters associated with this option.
+  // Note: GetExtra() returns the direct underlying map; callers should not mutate it concurrently.
   map<string, string> extra = 5;
 }
 
 extend google.protobuf.MethodOptions {
+  // options attaches custom metadata and routing configurations to an RPC method.
+  // Consumed by protoc-gen-route and other Sphere plugins.
+  // Preconditions: Each KeyValuePair in options must be valid and initialized.
+  // Concurrency: Extension descriptors are immutable after registration in init().
   repeated KeyValuePair options = 501319300;
 }
