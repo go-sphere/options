@@ -164,6 +164,8 @@ plugins:
       - options_key=bot
       - request_model=github.com/go-sphere/telegram-bot/telegram;Update
       - response_model=github.com/go-sphere/telegram-bot/telegram;Message
+      - extra_data_model=github.com/go-sphere/telegram-bot/telegram;MethodExtraData
+      - extra_data_constructor=github.com/go-sphere/telegram-bot/telegram;NewMethodExtraData
 ```
 
 ## Generated Code Usage
@@ -200,7 +202,7 @@ type MenuServiceBotServer interface {
 
 ### KeyValuePair Structure
 
-- `key`: String identifier for the option
+- `key`: String identifier for the option. Only entries whose key matches the plugin's `options_key` (default `route`) are emitted into routing metadata; a service with no matching entry produces no generated file.
 - `value`: One of three types:
   - `flag`: Boolean value for feature flags
   - `text`: String value for textual data
@@ -302,7 +304,7 @@ make generate
 ```
 
 This will:
-1. Generate Go code from proto definitions
-2. Format the generated code
-3. Run linting checks
-4. Apply code formatting and imports
+1. Generate Go code from the proto definitions (`buf generate`)
+2. Format the proto files (`buf format -w`)
+3. Run linting checks (`buf lint`)
+4. Push the module to the Buf Schema Registry (`buf push`)
