@@ -289,11 +289,10 @@ rpc AdminOperation(AdminRequest) returns (AdminResponse) {
 
 ## Integration with Code Generation
 
-The options proto is designed to work seamlessly with sphere's code generation ecosystem:
+The options proto is designed for `protoc-gen-route` and custom protoc plugins (note that `protoc-gen-sphere` reads `google.api.http`, `sphere.binding`, and `sphere.errors`, not `sphere.options`):
 
-- **protoc-gen-route**: Generates routing handlers based on option metadata
-- **protoc-gen-sphere**: Creates HTTP servers with option-based configuration
-- **Custom plugins**: Can leverage options for domain-specific code generation
+- **protoc-gen-route**: Consumes `(sphere.options.options)` entries matching its `options_key` to generate routing handlers and metadata
+- **Custom plugins**: Can leverage `(sphere.options.options)` for domain-specific code generation
 
 ## Building and Development
 
